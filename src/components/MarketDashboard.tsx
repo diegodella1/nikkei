@@ -205,6 +205,7 @@ export function MarketDashboard() {
               const up = (q.change ?? 0) > 0;
               const down = (q.change ?? 0) < 0;
               const isMetaplanet = q.id === "metaplanet3350";
+              const isUsdJpy = q.id === "usdjpy";
               const changeClass = up
                 ? "tv-neon-green"
                 : down
@@ -224,17 +225,33 @@ export function MarketDashboard() {
                       : ""
                   }`}
                 >
-                  <div className="tv-gridline shrink-0 border-b pb-2">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0">
-                        <p className="tv-neon-amber font-mono text-[clamp(1.2rem,2.8vmin,1.95rem)] font-bold uppercase tracking-[0.12em]">
+                  <div
+                    className={`tv-gridline w-full shrink-0 border-b pb-2 ${
+                      isUsdJpy ? "text-right" : ""
+                    }`}
+                  >
+                    <div
+                      className={`flex w-full items-start gap-3 ${
+                        isUsdJpy ? "" : "justify-between"
+                      }`}
+                    >
+                      <div
+                        className={`min-w-0 flex-1 ${
+                          isUsdJpy ? "order-2 text-right" : "order-1"
+                        }`}
+                      >
+                        <p className="tv-neon-amber font-mono text-[clamp(1.65rem,4vmin,2.75rem)] font-bold uppercase tracking-[0.1em]">
                           {q.label}
                         </p>
-                        <p className="mt-0.5 font-mono text-[clamp(1rem,2.1vmin,1.45rem)] text-slate-300/95">
-                          {q.symbol}
+                        <p className="mt-1 font-mono text-[clamp(1.2rem,2.8vmin,1.85rem)] text-slate-300/95">
+                          {isUsdJpy ? "USDJPY=X" : q.symbol}
                         </p>
                       </div>
-                      <div className="flex shrink-0 items-center gap-1.5">
+                      <div
+                        className={`flex shrink-0 items-center gap-1.5 self-start ${
+                          isUsdJpy ? "order-1" : "order-2"
+                        }`}
+                      >
                         {(CARD_DECOR[q.id] ?? []).map((item) => (
                           <span
                             key={`${q.id}-${item.alt}`}
@@ -255,9 +272,17 @@ export function MarketDashboard() {
                     </div>
                   </div>
 
-                  <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col justify-center gap-2 pt-3">
+                  <div
+                    className={`flex min-h-0 w-full min-w-0 flex-1 flex-col gap-2 pt-3 ${
+                      isUsdJpy
+                        ? "items-end justify-start text-right"
+                        : "justify-center"
+                    }`}
+                  >
                     <p
-                      className={`text-price-fluid w-full max-w-full whitespace-nowrap text-left font-mono font-semibold tabular-nums tracking-tight ${priceClass}`}
+                      className={`text-price-fluid w-full max-w-full whitespace-nowrap font-mono font-semibold tabular-nums tracking-tight ${priceClass} ${
+                        isUsdJpy ? "text-right" : "text-left"
+                      }`}
                     >
                       {formatPrice(q.price, q.currency, q.id)}
                     </p>
@@ -267,7 +292,11 @@ export function MarketDashboard() {
                       {formatChange(q.change)} ({formatPct(q.changePercent)})
                     </p>
                     {q.previousClose != null && (
-                      <p className="font-mono text-[clamp(1.4rem,2.7cqw,1.8rem)] tabular-nums text-zinc-400/90">
+                      <p
+                        className={`w-full shrink-0 font-mono text-[clamp(1.4rem,2.7cqw,1.8rem)] tabular-nums leading-normal text-zinc-400/90 ${
+                          isUsdJpy ? "block pb-1 text-right" : ""
+                        }`}
+                      >
                         Prev. close{" "}
                         <span className="text-zinc-300">
                           {formatPrice(
@@ -280,18 +309,24 @@ export function MarketDashboard() {
                     )}
                   </div>
 
-                  <div className="tv-gridline mt-auto shrink-0 border-t pt-2">
-                    {q.error && (
-                      <p className="font-mono text-[clamp(0.7rem,1.25vmin,0.85rem)] text-amber-300/95">
-                        {q.error}
-                      </p>
-                    )}
-                    {q.longName && !q.error && (
-                      <p className="line-clamp-2 font-mono text-[clamp(1.3rem,2.4cqw,1.6rem)] leading-snug text-zinc-500">
-                        {q.longName}
-                      </p>
-                    )}
-                  </div>
+                  {(q.error || (q.longName && !isUsdJpy)) && (
+                    <div
+                      className={`tv-gridline mt-auto w-full shrink-0 border-t pt-2 ${
+                        isUsdJpy ? "text-right" : ""
+                      }`}
+                    >
+                      {q.error && (
+                        <p className="font-mono text-[clamp(0.7rem,1.25vmin,0.85rem)] text-amber-300/95">
+                          {q.error}
+                        </p>
+                      )}
+                      {q.longName && !q.error && !isUsdJpy && (
+                        <p className="line-clamp-2 font-mono text-[clamp(1.3rem,2.4cqw,1.6rem)] leading-snug text-zinc-500">
+                          {q.longName}
+                        </p>
+                      )}
+                    </div>
+                  )}
                 </article>
               );
             })}
