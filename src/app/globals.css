@@ -19,10 +19,23 @@
   }
 }
 
+html {
+  height: 100%;
+  /* Fallback when embedded Chromium mis-reports dynamic viewport units */
+  min-height: 100%;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
+  min-height: 100%;
+}
+
+@supports (min-height: 100dvh) {
+  body {
+    min-height: 100dvh;
+  }
 }
 
 .tv-hud {
@@ -74,13 +87,13 @@ body {
 }
 
 .text-price-fluid {
-  /* cqw tracks each card — 2×2 layout = wider cells, slightly higher cap */
-  font-size: clamp(2rem, 16cqw, 5.25rem);
+  /* cqw + vmin: short viewports (vMix window, 720p) stay readable without clipping */
+  font-size: clamp(1.15rem, min(16cqw, 11vmin), 5rem);
   line-height: 1.05;
 }
 
 .text-change-fluid {
-  font-size: clamp(1.05rem, 6cqw, 2.1rem);
+  font-size: clamp(0.75rem, min(6cqw, 4.25vmin), 2rem);
   line-height: 1.25;
 }
 

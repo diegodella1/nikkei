@@ -147,15 +147,15 @@ export function MarketDashboard() {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(59,130,246,0.12),transparent_45%)]" />
         <div className="broadcast-main-grid pointer-events-none absolute inset-0 opacity-[0.35]" />
 
-        <div className="relative z-20 flex h-full min-h-0 flex-1 flex-col px-[clamp(0.75rem,2.2vmin,1.75rem)] pb-[clamp(0.5rem,1.2vmin,1rem)] pt-[clamp(0.65rem,1.6vmin,1.25rem)]">
-          <header className="tv-gridline flex shrink-0 flex-col gap-2 border-b pb-3">
-            <div className="flex min-w-0 flex-wrap items-end justify-between gap-x-4 gap-y-2">
+        <div className="relative z-20 flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-y-contain px-[clamp(0.5rem,1.8vmin,1.75rem)] pb-[clamp(0.35rem,1vmin,1rem)] pt-[clamp(0.45rem,1.35vmin,1.25rem)]">
+          <header className="tv-gridline flex shrink-0 flex-col gap-1.5 border-b pb-2 sm:gap-2 sm:pb-3">
+            <div className="flex min-w-0 flex-wrap items-end justify-between gap-x-3 gap-y-2">
               <div className="min-w-0">
-                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                  <p className="tv-neon-amber font-mono text-[clamp(0.95rem,1.8vmin,1.2rem)] font-bold uppercase tracking-[0.24em]">
+                <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 sm:gap-x-3">
+                  <p className="tv-neon-amber font-mono text-[clamp(0.75rem,1.5vmin,1.2rem)] font-bold uppercase tracking-[0.18em] sm:tracking-[0.24em]">
                     Live monitor
                   </p>
-                  <h1 className="text-[clamp(2.2rem,5.8vmin,4.8rem)] font-bold leading-none tracking-tight text-white">
+                  <h1 className="text-[clamp(1.35rem,min(5.5vmin,8vw),4.5rem)] font-bold leading-none tracking-tight text-white">
                     Japan markets
                   </h1>
                 </div>
@@ -169,7 +169,7 @@ export function MarketDashboard() {
                     {session.status}
                   </div>
                   <div className="text-right">
-                    <p className="font-mono text-[clamp(1.35rem,4.5vmin,3.25rem)] font-semibold tabular-nums leading-none text-white">
+                    <p className="font-mono text-[clamp(1rem,min(4vmin,7vw),3rem)] font-semibold tabular-nums leading-none text-white">
                       {session.timeInTokyo}
                       <span className="ml-2 text-[0.45em] font-medium text-zinc-400">
                         JST
@@ -182,7 +182,7 @@ export function MarketDashboard() {
                 </div>
               )}
             </div>
-            <p className="font-mono text-[clamp(0.7rem,1.2vmin,0.8rem)] leading-snug text-zinc-400/80">
+            <p className="font-mono text-[clamp(0.62rem,1.05vmin,0.8rem)] leading-snug text-zinc-400/80">
               Nikkei 225 · TOPIX (ETF 1306) · USD/JPY · Metaplanet (3350) · ~1
               min refresh · Yahoo Finance (unofficial)
             </p>
@@ -200,7 +200,7 @@ export function MarketDashboard() {
             </p>
           )}
 
-          <div className="relative grid min-h-0 w-full min-w-0 flex-1 grid-cols-1 gap-[clamp(0.35rem,1vmin,0.75rem)] sm:grid-cols-2 sm:[grid-template-rows:repeat(2,minmax(0,1fr))]">
+          <div className="relative grid min-h-0 w-full min-w-0 flex-1 grid-cols-1 gap-[clamp(0.25rem,0.85vmin,0.75rem)] min-[480px]:grid-cols-2 min-[480px]:[grid-template-rows:repeat(2,minmax(0,1fr))]">
             {data?.indices.map((q) => {
               const up = (q.change ?? 0) > 0;
               const down = (q.change ?? 0) < 0;
@@ -219,7 +219,7 @@ export function MarketDashboard() {
               return (
                 <article
                   key={q.id}
-                  className={`tv-gridline broadcast-card flex h-full min-h-0 min-w-0 flex-col overflow-hidden rounded-md border bg-black/35 px-[clamp(0.75rem,2.2vmin,1.35rem)] py-[clamp(0.75rem,2vmin,1.25rem)] sm:min-h-0 ${
+                  className={`tv-gridline broadcast-card flex h-full min-h-0 min-w-0 flex-col overflow-hidden rounded-md border bg-black/35 px-[clamp(0.45rem,1.6vmin,1.35rem)] py-[clamp(0.45rem,1.5vmin,1.25rem)] min-[480px]:min-h-0 ${
                     isMetaplanet
                       ? "border-2 border-white shadow-[0_0_0_1px_rgba(255,255,255,0.4)]"
                       : ""
@@ -240,10 +240,10 @@ export function MarketDashboard() {
                           isUsdJpy ? "order-2 text-right" : "order-1"
                         }`}
                       >
-                        <p className="tv-neon-amber font-mono text-[clamp(1.65rem,4vmin,2.75rem)] font-bold uppercase tracking-[0.1em]">
+                        <p className="tv-neon-amber font-mono text-[clamp(1rem,min(3.4vmin,5vw),2.5rem)] font-bold uppercase tracking-[0.08em]">
                           {q.label}
                         </p>
-                        <p className="mt-1 font-mono text-[clamp(1.2rem,2.8vmin,1.85rem)] text-slate-300/95">
+                        <p className="mt-0.5 font-mono text-[clamp(0.85rem,min(2.4vmin,4vw),1.75rem)] text-slate-300/95">
                           {isUsdJpy ? "USDJPY=X" : q.symbol}
                         </p>
                       </div>
@@ -263,7 +263,7 @@ export function MarketDashboard() {
                               alt={item.alt}
                               width={40}
                               height={40}
-                              className="h-10 w-10 rounded-[3px] object-cover"
+                              className="h-[clamp(1.65rem,5vmin,2.5rem)] w-[clamp(1.65rem,5vmin,2.5rem)] rounded-[3px] object-cover"
                               unoptimized
                             />
                           </span>
@@ -273,14 +273,14 @@ export function MarketDashboard() {
                   </div>
 
                   <div
-                    className={`flex min-h-0 w-full min-w-0 flex-1 flex-col gap-2 pt-3 ${
+                    className={`flex min-h-0 w-full min-w-0 flex-1 flex-col gap-1.5 pt-2 min-[480px]:gap-2 min-[480px]:pt-3 ${
                       isUsdJpy
                         ? "items-end justify-start text-right"
                         : "justify-center"
                     }`}
                   >
                     <p
-                      className={`text-price-fluid w-full max-w-full whitespace-nowrap font-mono font-semibold tabular-nums tracking-tight ${priceClass} ${
+                      className={`text-price-fluid w-full max-w-full min-w-0 overflow-hidden text-ellipsis whitespace-nowrap font-mono font-semibold tabular-nums tracking-tight ${priceClass} ${
                         isUsdJpy ? "text-right" : "text-left"
                       }`}
                     >
@@ -293,7 +293,7 @@ export function MarketDashboard() {
                     </p>
                     {q.previousClose != null && (
                       <p
-                        className={`w-full shrink-0 font-mono text-[clamp(1.4rem,2.7cqw,1.8rem)] tabular-nums leading-normal text-zinc-400/90 ${
+                        className={`w-full shrink-0 font-mono text-[clamp(0.75rem,min(2.5cqw,3vmin),1.65rem)] tabular-nums leading-normal text-zinc-400/90 ${
                           isUsdJpy ? "block pb-1 text-right" : ""
                         }`}
                       >
@@ -321,7 +321,7 @@ export function MarketDashboard() {
                         </p>
                       )}
                       {q.longName && !q.error && !isUsdJpy && (
-                        <p className="line-clamp-2 font-mono text-[clamp(1.3rem,2.4cqw,1.6rem)] leading-snug text-zinc-500">
+                        <p className="line-clamp-2 font-mono text-[clamp(0.7rem,min(2.1cqw,2.8vmin),1.45rem)] leading-snug text-zinc-500">
                           {q.longName}
                         </p>
                       )}
@@ -332,7 +332,7 @@ export function MarketDashboard() {
             })}
           </div>
 
-          <footer className="tv-gridline mt-auto flex shrink-0 flex-col gap-1.5 border-t bg-black/35 py-2.5 pl-1 font-mono text-[clamp(0.7rem,1.25vmin,0.85rem)] text-zinc-400 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-1">
+          <footer className="tv-gridline mt-auto flex shrink-0 flex-col gap-1 border-t bg-black/35 py-2 pl-1 font-mono text-[clamp(0.6rem,1.1vmin,0.85rem)] text-zinc-400 min-[480px]:flex-row min-[480px]:items-center min-[480px]:justify-between min-[480px]:gap-4 min-[480px]:py-2.5 min-[480px]:px-1">
             <p className="min-w-0 leading-snug">
               Delayed / unofficial · not financial advice · Tokyo hours
               approximate (holidays excluded)

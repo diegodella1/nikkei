@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -18,6 +18,13 @@ export const metadata: Metadata = {
     "Opening and performance — Nikkei 225, TOPIX (ETF proxy), USD/JPY, Metaplanet (3350.T)",
 };
 
+/** Embedded browsers (e.g. vMix Web Browser) need explicit viewport + safe scaling. */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -28,7 +35,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex h-dvh min-h-0 flex-col overflow-x-hidden bg-[#030306]">
+      <body className="flex min-h-[100vh] min-h-dvh flex-col overflow-x-hidden overflow-y-auto bg-[#030306]">
         {children}
       </body>
     </html>
