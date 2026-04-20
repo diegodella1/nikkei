@@ -134,18 +134,18 @@ export function MarketDashboard() {
         : "border-zinc-600/50 bg-zinc-800/40 text-zinc-300";
 
   return (
-    <div className="tv-hud flex min-h-dvh w-full items-center justify-center bg-gradient-to-br from-[#020304] via-[#070a12] to-[#020205] p-[min(0.5rem,1.2vmin)]">
+    <div className="tv-hud flex min-h-0 w-full flex-1 flex-col overflow-hidden bg-gradient-to-br from-[#020304] via-[#070a12] to-[#020205]">
       <div
-        className="broadcast-frame relative flex flex-col overflow-hidden rounded-lg border border-slate-300/[0.18] bg-gradient-to-b from-[#060a14] via-[#04070f] to-[#020309] shadow-[0_0_0_1px_rgba(255,255,255,0.05),0_24px_90px_rgba(0,0,0,0.82)]"
+        className="broadcast-frame relative flex min-h-0 w-full flex-1 flex-col overflow-hidden border border-slate-300/[0.18] bg-gradient-to-b from-[#060a14] via-[#04070f] to-[#020309] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]"
         role="region"
         aria-label="Japan markets broadcast monitor"
       >
         <div
-          className="broadcast-scanlines absolute inset-0 z-10 rounded-lg opacity-[0.14]"
+          className="broadcast-scanlines absolute inset-0 z-10 opacity-[0.14]"
           aria-hidden
         />
-        <div className="pointer-events-none absolute inset-0 rounded-lg bg-[radial-gradient(ellipse_at_50%_0%,rgba(59,130,246,0.12),transparent_45%)]" />
-        <div className="broadcast-main-grid pointer-events-none absolute inset-0 rounded-lg opacity-[0.35]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(59,130,246,0.12),transparent_45%)]" />
+        <div className="broadcast-main-grid pointer-events-none absolute inset-0 opacity-[0.35]" />
 
         <div className="relative z-20 flex h-full min-h-0 flex-1 flex-col px-[clamp(0.75rem,2.2vmin,1.75rem)] pb-[clamp(0.5rem,1.2vmin,1rem)] pt-[clamp(0.65rem,1.6vmin,1.25rem)]">
           <header className="tv-gridline flex shrink-0 flex-col gap-2 border-b pb-3">
