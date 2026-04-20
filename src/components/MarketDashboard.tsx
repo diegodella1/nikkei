@@ -95,6 +95,10 @@ function formatPct(value: number | null): string {
   return `${sign}${value.toFixed(2)}%`;
 }
 
+/** Matches longName line height so cards without a name (e.g. USD/JPY) align with Metaplanet row. */
+const LONG_NAME_LINE_CLASS =
+  "line-clamp-2 font-mono text-[clamp(0.7rem,min(2.1cqw,2.8vmin),1.45rem)] leading-snug text-zinc-500";
+
 export function MarketDashboard() {
   const [data, setData] = useState<MarketResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -219,7 +223,7 @@ export function MarketDashboard() {
               return (
                 <article
                   key={q.id}
-                  className={`tv-gridline broadcast-card flex h-full min-h-0 min-w-0 flex-col overflow-hidden rounded-md border bg-black/35 px-[clamp(0.45rem,1.6vmin,1.35rem)] py-[clamp(0.45rem,1.5vmin,1.25rem)] min-[480px]:min-h-0 ${
+                  className={`tv-gridline broadcast-card grid h-full min-h-0 min-w-0 grid-rows-[auto_minmax(0,1fr)_auto_auto] overflow-hidden rounded-md border bg-black/35 px-[clamp(0.45rem,1.6vmin,1.35rem)] py-[clamp(0.45rem,1.5vmin,1.25rem)] min-[480px]:min-h-0 ${
                     isMetaplanet
                       ? "border-2 border-white shadow-[0_0_0_1px_rgba(255,255,255,0.4)]"
                       : ""
@@ -231,7 +235,7 @@ export function MarketDashboard() {
                     }`}
                   >
                     <div
-                      className={`flex w-full items-start gap-3 ${
+                      className={`flex w-full items-center gap-3 ${
                         isUsdJpy ? "" : "justify-between"
                       }`}
                     >
@@ -248,7 +252,7 @@ export function MarketDashboard() {
                         </p>
                       </div>
                       <div
-                        className={`flex shrink-0 items-center gap-1.5 self-start ${
+                        className={`flex shrink-0 items-center gap-1.5 ${
                           isUsdJpy ? "order-1" : "order-2"
                         }`}
                       >
@@ -273,10 +277,10 @@ export function MarketDashboard() {
                   </div>
 
                   <div
-                    className={`flex min-h-0 w-full min-w-0 flex-1 flex-col gap-1.5 min-[480px]:gap-2 ${
+                    className={`flex min-h-0 w-full flex-col justify-center gap-1.5 pt-2 min-[480px]:gap-2 min-[480px]:pt-2 ${
                       isUsdJpy
-                        ? "items-end justify-center pt-0 text-right"
-                        : "justify-center pt-2 min-[480px]:pt-3"
+                        ? "items-end text-right"
+                        : "items-start"
                     }`}
                   >
                     <p
@@ -287,16 +291,21 @@ export function MarketDashboard() {
                       {formatPrice(q.price, q.currency, q.id)}
                     </p>
                     <p
-                      className={`text-change-fluid font-mono font-semibold tabular-nums ${changeClass}`}
+                      className={`text-change-fluid w-full font-mono font-semibold tabular-nums ${changeClass} ${
+                        isUsdJpy ? "text-right" : "text-left"
+                      }`}
                     >
                       {formatChange(q.change)} ({formatPct(q.changePercent)})
                     </p>
-                    {q.previousClose != null && (
-                      <p
-                        className={`w-full shrink-0 font-mono text-[clamp(0.75rem,min(2.5cqw,3vmin),1.65rem)] tabular-nums leading-normal text-zinc-400/90 ${
-                          isUsdJpy ? "block pb-1 text-right" : ""
-                        }`}
-                      >
+                  </div>
+
+                  <div
+                    className={`shrink-0 pt-2 font-mono text-[clamp(0.75rem,min(2.5cqw,3vmin),1.65rem)] tabular-nums leading-normal text-zinc-400/90 ${
+                      isUsdJpy ? "text-right" : "text-left"
+                    }`}
+                  >
+                    {q.previousClose != null ? (
+                      <p>
                         Prev. close{" "}
                         <span className="text-zinc-300">
                           {formatPrice(
@@ -306,27 +315,33 @@ export function MarketDashboard() {
                           )}
                         </span>
                       </p>
+                    ) : (
+                      <p className="invisible select-none" aria-hidden>
+                        Prev. close —
+                      </p>
                     )}
                   </div>
 
-                  {(q.error || (q.longName && !isUsdJpy)) && (
-                    <div
-                      className={`tv-gridline mt-auto w-full shrink-0 border-t pt-2 ${
-                        isUsdJpy ? "text-right" : ""
-                      }`}
-                    >
-                      {q.error && (
-                        <p className="font-mono text-[clamp(0.7rem,1.25vmin,0.85rem)] text-amber-300/95">
-                          {q.error}
-                        </p>
-                      )}
-                      {q.longName && !q.error && !isUsdJpy && (
-                        <p className="line-clamp-2 font-mono text-[clamp(0.7rem,min(2.1cqw,2.8vmin),1.45rem)] leading-snug text-zinc-500">
-                          {q.longName}
-                        </p>
-                      )}
-                    </div>
-                  )}
+                  <div
+                    className={`tv-gridline flex min-h-0 w-full shrink-0 flex-col justify-end border-t pt-2 ${
+                      isUsdJpy ? "text-right" : ""
+                    }`}
+                  >
+                    {q.error ? (
+                      <p className="font-mono text-[clamp(0.7rem,1.25vmin,0.85rem)] text-amber-300/95">
+                        {q.error}
+                      </p>
+                    ) : q.longName && !isUsdJpy ? (
+                      <p className={LONG_NAME_LINE_CLASS}>{q.longName}</p>
+                    ) : (
+                      <p
+                        className={`${LONG_NAME_LINE_CLASS} invisible select-none`}
+                        aria-hidden
+                      >
+                        Metaplanet Inc.
+                      </p>
+                    )}
+                  </div>
                 </article>
               );
             })}
