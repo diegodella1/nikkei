@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+.tv-hud {
+  font-family: var(--font-geist-mono), "JetBrains Mono", Consolas, monospace;
+  letter-spacing: 0.01em;
+}
+
+.tv-neon-amber {
+  color: #f4b93b;
+  text-shadow:
+    0 0 10px rgba(244, 185, 59, 0.28),
+    0 0 18px rgba(244, 185, 59, 0.16);
+}
+
+.tv-neon-green {
+  color: #34e28a;
+  text-shadow:
+    0 0 10px rgba(52, 226, 138, 0.25),
+    0 0 18px rgba(52, 226, 138, 0.14);
+}
+
+.tv-gridline {
+  border-color: rgba(148, 163, 184, 0.14);
+}
+
+/* 16:9 broadcast frame: maximize usable area inside the viewport */
+.broadcast-frame {
+  width: min(100vw - 1rem, (100dvh - 1rem) * 16 / 9);
+  height: min(100dvh - 1rem, (100vw - 1rem) * 9 / 16);
+  aspect-ratio: 16 / 9;
+}
+
+.broadcast-scanlines {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 2px,
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 3px
+  );
+  pointer-events: none;
+}
+
+/* Price scales to each card width — avoids overlap when 3-up on 16:9 */
+.broadcast-card {
+  container-type: inline-size;
+  min-width: 0;
+}
+
+.text-price-fluid {
+  /* cqw tracks each card — 2×2 layout = wider cells, slightly higher cap */
+  font-size: clamp(2rem, 16cqw, 5.25rem);
+  line-height: 1.05;
+}
+
+.text-change-fluid {
+  font-size: clamp(1.05rem, 6cqw, 2.1rem);
+  line-height: 1.25;
+}
+
+/* Fills negative space slightly — subtle grid, not empty flat black */
+.broadcast-main-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size:
+    100% 24px,
+    24px 100%;
+  background-position: center top;
+}
