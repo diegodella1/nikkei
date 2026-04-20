@@ -273,10 +273,10 @@ export function MarketDashboard() {
                   </div>
 
                   <div
-                    className={`flex min-h-0 w-full min-w-0 flex-1 flex-col gap-1.5 pt-2 min-[480px]:gap-2 min-[480px]:pt-3 ${
+                    className={`flex min-h-0 w-full min-w-0 flex-1 flex-col gap-1.5 min-[480px]:gap-2 ${
                       isUsdJpy
-                        ? "items-end justify-start text-right"
-                        : "justify-center"
+                        ? "items-end justify-center pt-0 text-right"
+                        : "justify-center pt-2 min-[480px]:pt-3"
                     }`}
                   >
                     <p
